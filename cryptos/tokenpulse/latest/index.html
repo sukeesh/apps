@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenPulse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: block;
+            transition: background 0.3s ease;
+            cursor: none; /* Hide default cursor */
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #00ff88;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 100px;
+        }
+
+        .tradingview-widget-container {
+            width: 100%;
+            margin-top: -20px;
+        }
+
+        .ticker-wrap {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px 0;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .ticker {
+            display: flex;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            color: #00ff88;
+            font-weight: 500;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .main-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 12px;
+            color: #00ff88;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .main-link:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .grid-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+
+        .row {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            justify-content: flex-start; /* Align to start of row */
+        }
+
+        .column {
+            flex: 0 1 800px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            min-height: 200px;
+            overflow: hidden;
+        }
+
+        .column h2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #fff; /* Reset to white color */
+        }
+
+        .card {
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .card-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card img.token-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .card .info {
+            flex-grow: 1;
+        }
+
+        .card .name {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .card .symbol {
+            font-size: 0.8rem;
+            color: #00ff88;
+        }
+
+        .card .market-cap {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .time-since {
+            font-size: 0.75rem;
+            color: rgba(0, 255, 136, 0.7);
+            margin-left: auto;
+            padding-left: 12px;
+            white-space: nowrap;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .toggle-switch {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 4px;
+            gap: 4px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-option {
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            color: #fff;
+            background: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-option.active {
+            background: #00ff88;
+            color: #1a1a2e;
+            transform: scale(1.05);
+        }
+
+        body.jupiter-theme {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body.raydium-theme {
+            background: linear-gradient(135deg, #1f1f3a 0%, #2a1f3d 100%);
+        }
+
+        .loading-bar {
+            height: 2px;
+            background: linear-gradient(90deg, #00ff88 0%, #00ffee 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .loading-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00ff88;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: #00ff88;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #00ffee;
+        }
+
+        /* Custom cursor styles */
+        .cursor-dot {
+            width: 4px;
+            height: 4px;
+            background: #00ff88;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.2s ease;
+            background: rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Hover effects */
+        a:hover ~ .custom-cursor,
+        button:hover ~ .custom-cursor,
+        .card:hover ~ .custom-cursor {
+            transform: scale(1.5);
+            background: rgba(0, 255, 136, 0.15);
+            border-color: rgba(0, 255, 136, 0.8);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Click animations */
+        .click-animation {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        .click-ring {
+            position: absolute;
+            border: 2px solid #00ff88;
+            border-radius: 50%;
+            animation: clickRipple 0.8s cubic-bezier(0.1, 0, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        .click-ring:nth-child(1) {
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .click-ring:nth-child(2) {
+            width: 30px;
+            height: 30px;
+            animation-delay: 0.1s;
+        }
+
+        .click-ring:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes clickRipple {
+            0% {
+                transform: scale(0);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Pulse animation for cursor dot */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .cursor-dot {
+            animation: pulse 2s infinite;
+        }
+
+        /* Toast notification style */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: 1px solid #00ff88;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .panel-refresh,
+        .refresh-icon {
+            display: none;
+        }
+
+        .permanent-loading-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ff88 0%, #00ffee 100%);
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .permanent-loading-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, transparent 0%, #00ff88 50%, transparent 100%);
+            animation: loading-slide 1.5s infinite;
+        }
+
+        @keyframes loading-slide {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(200%);
+            }
+        }
+
+        .control-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .control-button {
+            margin-top: 25px;
+            height: 37px;
+            padding: 0 16px;
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .control-button:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .control-button svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .token-limit, .min-mc {
+            padding: 8px 12px;
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            width: 100px;
+            font-size: 0.9rem;
+            outline: none;
+            appearance: textfield;
+            -moz-appearance: textfield;
+            margin-top: 25px;
+        }
+
+        /* Remove default spinner for Chrome/Safari/Edge */
+        .token-limit::-webkit-outer-spin-button,
+        .token-limit::-webkit-inner-spin-button,
+        .min-mc::-webkit-outer-spin-button,
+        .min-mc::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Custom spinner buttons */
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .spinner-buttons {
+            display: flex;
+            flex-direction: column;
+            margin-left: -30px;
+            margin-top: 25px;
+            z-index: 1;
+        }
+
+        .spinner-button {
+            background: none;
+            border: none;
+            color: #00ff88;
+            cursor: pointer;
+            padding: 0;
+            width: 20px;
+            height: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .spinner-button:hover {
+            opacity: 1;
+        }
+
+        .spinner-button svg {
+            width: 12px;
+            height: 12px;
+            fill: currentColor;
+        }
+
+        .input-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 0.8rem;
+            color: #00ff88;
+        }
+    </style>
+</head>
+<body class="jupiter-theme">
+    <!-- Add cursor elements at the start of body -->
+    <div class="cursor-dot"></div>
+    <div class="custom-cursor"></div>
+
+    <div class="toggle-container">
+        <div class="toggle-switch">
+            <button class="toggle-option" id="raydiumBtn">
+                <img src="https://cryptologos.cc/logos/raydium-ray-logo.png?v=040" alt="Raydium" width="20" height="20" style="vertical-align: middle; margin-right: 8px;">
+                Raydium
+            </button>
+            <button class="toggle-option active" id="jupiterBtn">
+                <img src="https://jup.ag/_next/image?url=%2Fsvg%2Fjupiter-logo.png&w=48&q=75" alt="Jupiter" width="20" height="20" style="vertical-align: middle; margin-right: 8px;">
+                Jupiter
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>TokenPulse</h1>
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+            "symbols": [
+                {
+                "proName": "BITSTAMP:BTCUSD",
+                "title": "Bitcoin"
+                },
+                {
+                "proName": "BITSTAMP:ETHUSD",
+                "title": "Ethereum"
+                },
+                {
+                "description": "Solana",
+                "proName": "COINBASE:SOLUSD"
+                },
+                {
+                "description": "Jupiter",
+                "proName": "KUCOIN:JUPUSDT"
+                },
+                {
+                "description": "Raydium",
+                "proName": "KUCOIN:RAYUSDT"
+                },
+                {
+                "description": "Bonk",
+                "proName": "KUCOIN:BONKUSDT"
+                },
+                {
+                "description": "Orca",
+                "proName": "KUCOIN:ORCAUSDT"
+                },
+                {
+                "description": "Pyth",
+                "proName": "BINANCE:PYTHUSDT"
+                },
+                {
+                "description": "DogeCoin",
+                "proName": "BINANCE:DOGEUSDT"
+                },
+                {
+                "description": "Cardano",
+                "proName": "BINANCE:ADAUSDT"
+                },
+                {
+                "description": "Ripple",
+                "proName": "BINANCE:XRPUSDT"
+                },
+                {
+                "description": "Litecoin",
+                "proName": "BITFINEX:LTCUSD"
+                },
+                {
+                "description": "Polkadot",
+                "proName": "BINANCE:DOTUSDT"
+                },
+                {
+                "description": "Shiba Inu",
+                "proName": "BINANCE:SHIBUSDT"
+                },
+                {
+                "description": "Avalanche",
+                "proName": "BINANCE:AVAXUSDT"
+                },
+                {
+                "description": "Chainlink",
+                "proName": "BINANCE:LINKUSDT"
+                },
+                {
+                "description": "Polygon",
+                "proName": "BINANCE:MATICUSDT"
+                },
+                {
+                "description": "Uniswap",
+                "proName": "COINBASE:UNIUSD"
+                },
+                {
+                "description": "Binance Coin",
+                "proName": "BINANCE:BNBUSDT"
+                },
+                {
+                "description": "Stellar",
+                "proName": "BINANCE:XLMUSDT"
+                }
+            ],
+            "showSymbolLogo": true,
+            "colorTheme": "dark",
+            "isTransparent": true,
+            "displayMode": "adaptive",
+            "locale": "en"
+            }
+            </script>
+        </div>
+        <!-- TradingView Widget END -->
+        
+        <div class="grid-container">
+            <div class="column" id="latestCoins">
+                <div class="loading-bar"></div>
+                <h2>Latest Tokens</h2>
+                <div class="control-buttons">
+                    <div class="input-wrapper">
+                        <span class="input-label">Min MC ($)</span>
+                        <input type="number" class="min-mc" id="minMC" min="0" value="25" title="Minimum Market Cap in USD">
+                        <div class="spinner-buttons">
+                            <button class="spinner-button" onclick="this.previousElementSibling.stepUp()">
+                                <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>
+                            </button>
+                            <button class="spinner-button" onclick="this.previousElementSibling.previousElementSibling.stepDown()">
+                                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <span class="input-label">Max Tokens</span>
+                        <input type="number" class="token-limit" id="tokenLimit" min="1" max="200" value="100" title="Number of tokens to display (1-200)">
+                        <div class="spinner-buttons">
+                            <button class="spinner-button" onclick="this.previousElementSibling.stepUp()">
+                                <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>
+                            </button>
+                            <button class="spinner-button" onclick="this.previousElementSibling.previousElementSibling.stepDown()">
+                                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="control-button" id="streamControl">
+                        <svg class="pause-icon" viewBox="0 0 24 24">
+                            <path d="M6 4h4v16H6zm8 0h4v16h-4z"/>
+                        </svg>
+                        <span>Pause</span>
+                    </button>
+                </div>
+                <div class="list"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>TokenPulse is a tool for finding and swapping SOL tokens on Raydium and Jupiter. Not affiliated with either platform.</p>
+    </div>
+
+    <script>
+
+        function formatTimeSince(dateString) {
+            const created = new Date(dateString);
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - created) / 1000);
+
+            if (diffInSeconds < 60) {
+                return `${diffInSeconds}s ago`;
+            } else if (diffInSeconds < 3600) {
+                const minutes = Math.floor(diffInSeconds / 60);
+                return `${minutes}m ago`;
+            } else if (diffInSeconds < 86400) {
+                const hours = Math.floor(diffInSeconds / 3600);
+                return `${hours}h ago`;
+            } else {
+                const days = Math.floor(diffInSeconds / 86400);
+                return `${days}d ago`;
+            }
+        }
+
+        const raydiumBtn = document.getElementById('raydiumBtn');
+        const jupiterBtn = document.getElementById('jupiterBtn');
+        let isJupiter = true;
+
+        function updateLinks() {
+            const gridContainer = document.querySelector('.grid-container');
+            gridContainer.classList.add('fade');
+            
+            setTimeout(() => {
+                const coinLinks = document.querySelectorAll('.swap-link');
+                document.body.className = isJupiter ? 'jupiter-theme' : 'raydium-theme';
+                
+                coinLinks.forEach(link => {
+                    const coinAddress = link.href.split('SOL-')[1]?.split('&')[0] || link.href.split('outputMint=')[1];
+                    const imgElement = link.querySelector('img');
+                    
+                    if (isJupiter) {
+                        link.href = `https://jup.ag/swap/SOL-${coinAddress}`;
+                        imgElement.src = 'https://jup.ag/_next/image?url=%2Fsvg%2Fjupiter-logo.png&w=48&q=75';
+                        imgElement.style.width = '24px';
+                        imgElement.style.height = '24px';
+                        jupiterBtn.classList.add('active');
+                        raydiumBtn.classList.remove('active');
+                    } else {
+                        link.href = `https://raydium.io/swap/?inputMint=sol&outputMint=${coinAddress}`;
+                        imgElement.src = 'https://cryptologos.cc/logos/raydium-ray-logo.png?v=040';
+                        imgElement.style.width = '24px';
+                        imgElement.style.height = '24px';
+                        raydiumBtn.classList.add('active');
+                        jupiterBtn.classList.remove('active');
+                    }
+                });
+                
+                setTimeout(() => {
+                    gridContainer.classList.remove('fade');
+                }, 150);
+            }, 150);
+        }
+
+        raydiumBtn.addEventListener('click', () => {
+            if (isJupiter) {
+                isJupiter = false;
+                updateLinks();
+            }
+        });
+
+        jupiterBtn.addEventListener('click', () => {
+            if (!isJupiter) {
+                isJupiter = true;
+                updateLinks();
+            }
+        });
+
+        async function fetchCoins(url, containerId) {
+            const container = document.querySelector(`#${containerId}`);
+            const list = container.querySelector('.list');
+            
+            // Add loading bar
+            const loadingBar = document.createElement('div');
+            loadingBar.className = 'loading-bar';
+            container.insertBefore(loadingBar, container.firstChild);
+            
+            // Add loading text
+            list.innerHTML = '<div class="loading-text">Loading...</div>';
+            
+            try {
+                // Animate loading bar
+                loadingBar.style.width = '60%';
+                
+                const response = await axios.get(url, { headers: API_HEADERS });
+                const coins = response.data;
+                
+                // Complete loading bar
+                loadingBar.style.width = '100%';
+                
+                // Clear loading text
+                list.innerHTML = '';
+
+                coins.forEach(coin => {
+                    const card = createCoinCard(coin);
+                    list.appendChild(card);
+                });
+
+                // Remove loading bar after a short delay
+                setTimeout(() => {
+                    loadingBar.remove();
+                }, 500);
+
+            } catch (error) {
+                console.error('Error fetching coins:', error);
+                list.innerHTML = '<p>Error loading data.</p>';
+                loadingBar.style.background = '#ff3366';
+                loadingBar.style.width = '100%';
+            }
+        }
+
+        // Custom Cursor and Click Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const cursor = document.querySelector('.custom-cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+
+            // Move custom cursor with mouse
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX;
+                const y = e.clientY;
+                
+                // Add slight delay to main cursor for smooth effect
+                requestAnimationFrame(() => {
+                    cursor.style.left = x - 10 + 'px';
+                    cursor.style.top = y - 10 + 'px';
+                });
+                
+                // Dot follows immediately
+                cursorDot.style.left = x - 2 + 'px';
+                cursorDot.style.top = y - 2 + 'px';
+            });
+
+            // Enhanced click animation
+            document.addEventListener('click', (e) => {
+                const clickAnim = document.createElement('div');
+                clickAnim.className = 'click-animation';
+                clickAnim.style.left = e.clientX - 20 + 'px';
+                clickAnim.style.top = e.clientY - 20 + 'px';
+                
+                // Create multiple rings for the animation
+                for (let i = 0; i < 3; i++) {
+                    const ring = document.createElement('div');
+                    ring.className = 'click-ring';
+                    clickAnim.appendChild(ring);
+                }
+                
+                document.body.appendChild(clickAnim);
+
+                // Remove animation element after it's done
+                setTimeout(() => {
+                    clickAnim.remove();
+                }, 1000);
+            });
+
+            // Enhanced hover effects
+            document.querySelectorAll('a, button, .card').forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'scale(1.5)';
+                    cursor.style.background = 'rgba(0, 255, 136, 0.15)';
+                    cursor.style.borderColor = 'rgba(0, 255, 136, 0.8)';
+                    cursor.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.4)';
+                });
+
+                element.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'scale(1)';
+                    cursor.style.background = 'rgba(0, 255, 136, 0.1)';
+                    cursor.style.borderColor = 'rgba(0, 255, 136, 0.5)';
+                    cursor.style.boxShadow = '0 0 10px rgba(0, 255, 136, 0.3)';
+                });
+            });
+        });
+
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Toast notification function
+        function showToast(message) {
+            // Remove existing toast if any
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // Create and show new toast
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            // Trigger reflow for animation
+            toast.offsetHeight;
+            toast.classList.add('show');
+
+            // Remove toast after delay
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 2000);
+        }
+
+        // Add this function to update times
+        function updateAllTimestamps() {
+            const timeElements = document.querySelectorAll('.time-since');
+            timeElements.forEach(element => {
+                const timestamp = element.getAttribute('data-timestamp');
+                if (timestamp) {
+                    element.textContent = formatTimeSince(timestamp);
+                }
+            });
+        }
+
+        // Update the createCoinCard function to store the timestamp
+        function createCoinCard(coin) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.setAttribute('data-address', coin.address);
+            
+            const swapUrl = isJupiter 
+                ? `https://jup.ag/swap/SOL-${coin.address}`
+                : `https://raydium.io/swap/?inputMint=sol&outputMint=${coin.address}`;
+            const logoUrl = isJupiter
+                ? 'https://jup.ag/_next/image?url=%2Fsvg%2Fjupiter-logo.png&w=48&q=75'
+                : 'https://cryptologos.cc/logos/raydium-ray-logo.png?v=040';
+
+            card.innerHTML = `
+                <div class="card-content">
+                    <img class="token-img" src="${coin.imageUrl}" alt="${coin.name}">
+                    <div class="info">
+                        <div class="name">${coin.name}</div>
+                        <div class="symbol">${coin.symbol}</div>
+                        <div class="market-cap">MC: $${coin.market_cap.toLocaleString()}</div>
+                    </div>
+                    <div class="time-since" data-timestamp="${coin.created_time}">${formatTimeSince(coin.created_time)}</div>
+                    <div class="actions">
+                        <a href="${swapUrl}" class="swap-link" target="_blank">
+                            <img src="${logoUrl}" alt="Swap" style="width: 24px; height: 24px;">
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            // Add click handler for copying address
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('.swap-link')) {
+                    const address = card.getAttribute('data-address');
+                    copyToClipboard(address);
+                    showToast('Address copied to clipboard!');
+                }
+            });
+
+            return card;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let ws = null;
+            let isStreaming = true;
+            const streamControl = document.getElementById('streamControl');
+            const list = document.querySelector('#latestCoins .list');
+            const loadingBar = document.createElement('div');
+            let loadingBarInterval;
+            const tokenLimit = document.getElementById('tokenLimit');
+            const minMC = document.getElementById('minMC');
+            let maxTokens = 100;
+            let minimumMC = 25;
+            
+            list.innerHTML = '<div class="loading-text">Waiting for new tokens...</div>';
+
+            function updateControlButton() {
+                if (isStreaming) {
+                    streamControl.innerHTML = `
+                        <svg class="pause-icon" viewBox="0 0 24 24">
+                            <path d="M6 4h4v16H6zm8 0h4v16h-4z"/>
+                        </svg>
+                        <span>Pause</span>
+                    `;
+                    startLoadingAnimation();
+                } else {
+                    streamControl.innerHTML = `
+                        <svg class="play-icon" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <span>Resume</span>
+                    `;
+                    stopLoadingAnimation();
+                }
+            }
+
+            function startLoadingAnimation() {
+                loadingBar.className = 'loading-bar';
+                document.querySelector('#latestCoins').insertBefore(loadingBar, document.querySelector('#latestCoins').firstChild);
+                
+                function animateLoadingBar() {
+                    loadingBar.style.width = '0%';
+                    setTimeout(() => {
+                        loadingBar.style.width = '60%';
+                        setTimeout(() => {
+                            loadingBar.style.width = '100%';
+                            setTimeout(() => {
+                                loadingBar.style.width = '0%';
+                            }, 300);
+                        }, 1500);
+                    }, 300);
+                }
+
+                animateLoadingBar(); // Initial animation
+                loadingBarInterval = setInterval(animateLoadingBar, 3000);
+            }
+
+            function stopLoadingAnimation() {
+                clearInterval(loadingBarInterval);
+                loadingBar.remove();
+            }
+
+            function connect() {
+                ws = new WebSocket('wss://pumpportal.fun/api/data');
+                let reconnectAttempts = 0;
+                const maxReconnectAttempts = 5;
+
+                ws.onopen = function() {
+                    console.log('Connected to WebSocket');
+                    if (isStreaming) {
+                        const payload = {
+                            method: "subscribeNewToken"
+                        };
+                        ws.send(JSON.stringify(payload));
+                    }
+                    reconnectAttempts = 0;
+                };
+
+                ws.onmessage = async function(event) {
+                    const data = JSON.parse(event.data);
+                    if (data.txType === 'create') {
+                        try {
+                            const ipfsResponse = await fetch(data.uri);
+                            const metadata = await ipfsResponse.json();
+                            
+                            const coin = {
+                                name: data.name,
+                                symbol: data.symbol,
+                                address: data.mint,
+                                market_cap: parseFloat(data.marketCapSol),
+                                imageUrl: metadata.image,
+                                created_time: new Date().toISOString(),
+                                twitter: metadata.twitter,
+                                telegram: metadata.telegram,
+                                website: metadata.website
+                            };
+
+                            // Only add if market cap meets minimum requirement
+                            if (coin.market_cap >= minimumMC) {
+                                addNewCoin(coin);
+                            }
+                        } catch (error) {
+                            console.error('Error processing new token:', error);
+                        }
+                    }
+                };
+
+                ws.onclose = function() {
+                    console.log('WebSocket connection closed');
+                    if (reconnectAttempts < maxReconnectAttempts) {
+                        reconnectAttempts++;
+                        setTimeout(connect, 5000);
+                    }
+                };
+            }
+
+            function addNewCoin(coin) {
+                // Double-check market cap requirement
+                if (coin.market_cap < minimumMC) {
+                    return;
+                }
+
+                if (list.querySelector('.loading-text')) {
+                    list.innerHTML = '';
+                }
+
+                const card = createCoinCard(coin);
+                list.insertBefore(card, list.firstChild);
+                
+                while (list.children.length > maxTokens) {
+                    list.removeChild(list.lastChild);
+                }
+
+                card.style.animation = 'slideIn 0.3s ease-out';
+            }
+
+            streamControl.addEventListener('click', () => {
+                isStreaming = !isStreaming;
+                updateControlButton();
+
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    const payload = {
+                        method: isStreaming ? "subscribeNewToken" : "unsubscribeNewToken"
+                    };
+                    ws.send(JSON.stringify(payload));
+                }
+            });
+
+            // Update token limit when changed
+            tokenLimit.addEventListener('change', (e) => {
+                const value = parseInt(e.target.value);
+                if (value < 1) {
+                    e.target.value = '100';
+                    maxTokens = 100;
+                } else if (value > 200) {
+                    e.target.value = '200';
+                    maxTokens = 200;
+                } else {
+                    maxTokens = value;
+                }
+
+                while (list.children.length > maxTokens) {
+                    list.removeChild(list.lastChild);
+                }
+            });
+
+            // Update minimum MC when changed
+            minMC.addEventListener('change', (e) => {
+                const value = parseInt(e.target.value);
+                if (value < 0) {
+                    e.target.value = '25'; // Set to default if invalid
+                    minimumMC = 25;
+                } else {
+                    minimumMC = value;
+                }
+
+                // Filter existing tokens
+                Array.from(list.children).forEach(card => {
+                    if (!card.classList.contains('loading-text')) {
+                        const mcText = card.querySelector('.market-cap').textContent;
+                        const mc = parseFloat(mcText.replace('MC: $', '').replace(/,/g, ''));
+                        if (mc < minimumMC) {
+                            card.remove();
+                        }
+                    }
+                });
+            });
+
+            // Initial connection
+            connect();
+            startLoadingAnimation();
+
+            // Start the timer to update timestamps every second
+            setInterval(updateAllTimestamps, 1000);
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>
