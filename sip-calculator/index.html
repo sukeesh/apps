@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate SIP Calculator | Plan Your Investment Growth</title>
+    <meta name="title" content="The Ultimate SIP Calculator | Plan Your Investment Growth">
+    <meta name="description" content="Free online SIP (Systematic Investment Plan) calculator with visual charts. Calculate your investment returns, wealth growth, and future value instantly.">
+    <meta name="keywords" content="SIP calculator, investment calculator, mutual fund calculator, wealth growth calculator, financial planning tool, investment returns calculator">
+    <meta name="author" content="Sukeesh">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sukeesh.in/apps/sip-calculator/">
+    <meta property="og:title" content="The Ultimate SIP Calculator | Plan Your Investment Growth">
+    <meta property="og:description" content="Free online SIP calculator with visual charts. Calculate your investment returns, wealth growth, and future value instantly.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://sukeesh.in/apps/sip-calculator/">
+    <meta property="twitter:title" content="The Ultimate SIP Calculator | Plan Your Investment Growth">
+    <meta property="twitter:description" content="Free online SIP calculator with visual charts. Calculate your investment returns, wealth growth, and future value instantly.">
+
+    <!-- Add structured data for rich results -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "The Ultimate SIP Calculator",
+        "description": "A powerful SIP calculator that helps you plan your financial future by calculating investment returns, wealth growth, and future value.",
+        "url": "https://sukeesh.in/apps/sip-calculator/",
+        "applicationCategory": "FinanceApplication",
+        "author": {
+            "@type": "Person",
+            "name": "Sukeesh",
+            "url": "https://sukeesh.in"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Calculate SIP returns",
+            "Visual investment breakdown",
+            "Future value projection",
+            "Wealth growth analysis"
+        ]
+    }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <!-- Mobile theme color -->
+    <meta name="theme-color" content="#6366F1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4253571418163227"
+     crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary-color: #6366F1;
+            --gradient-start: #6366F1;
+            --gradient-end: #EC4899;
+            --text-color: #1E293B;
+            --background-color: #F8FAFC;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --input-bg: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(99, 102, 241, 0.2);
+            --highlight: #EC4899;
+            --secondary-text: #64748B;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            background: 
+                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.15) 0%, transparent 30%),
+                var(--background-color);
+            background-attachment: fixed;
+        }
+
+        .container {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 800px;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.05),
+                0 0 0 1px rgba(99, 102, 241, 0.1);
+            backdrop-filter: blur(20px);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2px;
+        }
+
+        .input-section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .input-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .input-group {
+            position: relative;
+            transition: all 0.3s ease;
+            width: 100%;
+            padding: 0.5rem;
+            box-sizing: border-box;
+        }
+
+        .input-group:hover {
+            transform: translateY(-2px);
+        }
+
+        .input-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-header i {
+            color: var(--highlight);
+            font-size: 0.9rem;
+        }
+
+        label {
+            color: var(--secondary-text);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            appearance: none;
+            -moz-appearance: textfield;
+        }
+
+        input::placeholder {
+            color: #94A3B8;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--highlight);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 200px;
+            margin: 2rem auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
+        }
+
+        button i {
+            font-size: 1.1rem;
+        }
+
+        .result-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            display: grid;
+            gap: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .result {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+            padding: 1.8rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .highlight-result {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transform: scale(1.02);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-header i {
+            color: var(--highlight);
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-subtext {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .percentage {
+            background: rgba(236, 72, 153, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            color: var(--highlight);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .positive {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22C55E;
+        }
+
+        .charts {
+            margin-top: 2rem;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(236, 72, 153, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto !important;
+            margin-top: 1rem;
+        }
+
+        .quote {
+            font-family: 'Poppins', sans-serif;
+            font-style: italic;
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-color);
+        }
+
+        .ad-container {
+            grid-column: 1 / -1;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .ad-container p {
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .input-section {
+                padding: 1rem;
+            }
+            
+            .input-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .input-group {
+                padding: 0.25rem;
+            }
+            
+            input {
+                padding: 0.875rem;
+            }
+        }
+
+        .developer-info {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .developer-info a {
+            color: var(--highlight);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .developer-info a:hover {
+            opacity: 1;
+            text-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+        }
+
+        .developer-info a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .developer-info a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-column">
+            <h1>The Ultimate SIP Calculator</h1>
+            <div class="input-section">
+                <div class="input-container">
+                    <div class="input-group">
+                        <div class="input-header">
+                            <i class="fas fa-coins"></i>
+                            <label for="initial">Initial Investment</label>
+                        </div>
+                        <input type="number" id="initial" placeholder="Enter amount">
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-header">
+                            <i class="fas fa-wallet"></i>
+                            <label for="monthly">Monthly SIP</label>
+                        </div>
+                        <input type="number" id="monthly" placeholder="Enter amount">
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-header">
+                            <i class="fas fa-chart-line"></i>
+                            <label for="rate">Expected Return (%)</label>
+                        </div>
+                        <input type="number" id="rate" placeholder="Enter percentage">
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-header">
+                            <i class="fas fa-calendar"></i>
+                            <label for="period">Time Period (Months)</label>
+                        </div>
+                        <input type="number" id="period" placeholder="Enter months">
+                    </div>
+                </div>
+                
+                <button onclick="calculateSIP()">
+                    <i class="fas fa-calculator"></i>
+                    Calculate
+                </button>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="result-container">
+                <div class="result highlight-result">
+                    <div class="result-header">
+                        <i class="fas fa-chart-line"></i>
+                        Final Value
+                    </div>
+                    <div class="result-value" id="future-value">₹0</div>
+                    <div class="result-subtext">
+                        Expected returns
+                        <span class="percentage positive" id="total-return-percentage">+0%</span>
+                    </div>
+                </div>
+                
+                <div class="result">
+                    <div class="result-header">
+                        <i class="fas fa-wallet"></i>
+                        Investment Details
+                    </div>
+                    <div class="result-value" id="total-invested">₹0</div>
+                    <div class="result-subtext">
+                        Total amount invested
+                    </div>
+                </div>
+                
+                <div class="result">
+                    <div class="result-header">
+                        <i class="fas fa-coins"></i>
+                        Wealth Growth
+                    </div>
+                    <div class="result-value" id="wealth-growth">₹0</div>
+                    <div class="result-subtext">
+                        Total interest earned
+                        <span class="percentage" id="interest-percentage">0%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="charts">
+                <div class="chart-title">Investment Breakdown</div>
+                <canvas id="pieChart" width="600" height="600"></canvas>
+            </div>
+        </div>
+        <div class="developer-info">
+            Developed by <a href="https://github.com/sukeesh" target="_blank" rel="noopener noreferrer">Sukeesh</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let pieChart;
+
+        function formatIndianCurrency(number) {
+            return number.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
+        }
+
+        function calculateSIP() {
+            const initial = parseFloat(document.getElementById('initial').value) || 0;
+            const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+            const rate = parseFloat(document.getElementById('rate').value) || 0;
+            const period = parseInt(document.getElementById('period').value) || 0;
+
+            const monthlyRate = rate / 12 / 100;
+            let futureValue = initial;
+            let totalInvested = initial;
+
+            const dataPoints = [];
+            const labels = [];
+            let years = 0;
+
+            for (let i = 1; i <= period; i++) {
+                futureValue = (futureValue + monthly) * (1 + monthlyRate);
+                totalInvested += monthly;
+                if (i % 12 === 0) {
+                    years++;
+                    dataPoints.push(futureValue.toFixed(2));
+                    labels.push(years);
+                }
+            }
+
+            const wealthGrowth = futureValue - totalInvested;
+
+            // Calculate percentages
+            const totalReturnPercentage = ((futureValue - totalInvested) / totalInvested * 100).toFixed(1);
+            const interestPercentage = ((wealthGrowth / totalInvested) * 100).toFixed(1);
+
+            // Update the DOM
+            document.getElementById('total-invested').textContent = formatIndianCurrency(totalInvested);
+            document.getElementById('wealth-growth').textContent = formatIndianCurrency(wealthGrowth);
+            document.getElementById('future-value').textContent = formatIndianCurrency(futureValue);
+            document.getElementById('total-return-percentage').textContent = `+${totalReturnPercentage}%`;
+            document.getElementById('interest-percentage').textContent = `${interestPercentage}%`;
+
+            // Pie Chart for Investment Breakdown
+            if (pieChart) {
+                pieChart.destroy();
+            }
+
+            const ctxPie = document.getElementById('pieChart').getContext('2d');
+            pieChart = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Total Invested', 'Total Interest'],
+                    datasets: [{
+                        data: [totalInvested.toFixed(2), wealthGrowth.toFixed(2)],
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.8)',  // Primary color
+                            'rgba(236, 72, 153, 0.8)'   // Highlight color
+                        ],
+                        borderWidth: 0,
+                        borderRadius: 5,
+                        spacing: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                color: '#1E293B',  // Updated text color
+                                font: {
+                                    family: 'Poppins, sans-serif',
+                                    size: 14,
+                                    weight: '500'
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Investment Breakdown',
+                            color: '#1E293B',  // Updated title color
+                            font: {
+                                family: 'Poppins, sans-serif',
+                                size: 18,
+                                weight: '600'
+                            },
+                            padding: {
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
